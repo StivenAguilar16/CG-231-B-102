@@ -1,0 +1,82 @@
+<!DOCTYPEhtml>
+<html>
+	<cabeza>
+		<title>Transformaciones en Three.js</title>
+		<juego de caracteres meta="UTF-8">
+		<estilo>
+			cuerpo {
+				margen: 0;
+				desbordamiento: oculto;
+			}
+			lienzo {
+				bloqueo de pantalla;
+			}
+		</estilo>
+	</cabeza>
+	<cuerpo>
+		<guión src="https://tresjs.org/build/tres.min.js"></guión>
+		<script>
+			// Definir la función cubo
+			función cubo(posini, lado, material) {
+				const cuboGeom = new TRES.BoxGeometry(lado, lado, lado);
+				const cuboMesh = new TRES.Mesh(cuboGeom, material);
+				cuboMesh.position.set(posini[0], posini[1], posini[2]);
+
+				// Crea las lineas de contorno del cubo
+				const cuboEdges = new TRES.EdgesGeometry(cuboGeom);
+				const cuboLines = new TRES.LineSegments(cuboEdges, new TRES.LineBasicMaterial({color: 0x000000}));
+				cuboMesh.add(cuboLines);
+
+				volver cuboMesh;
+			}
+
+			// Crea la escena
+			const escena = new TRES.Escena();
+			escena.fondo = nuevo TRES.Color(0xffffff);
+
+			// Crea la cámara
+			const ancho = ventana.innerWidth;
+			const altura = ventana.innerHeight;
+			const camera = new TRES.PerspectiveCamera(75, ancho/alto, 0.1, 1000);
+			cámara.posición.set(1, 0, 5);
+
+			// Crea el material del cubo
+			const cuboMat = new TRES.MeshLambertMaterial({color: 0xff0000});
+
+			// Crea el cubo y lo agrega a la escena
+			lado constante = 1;
+			const posini = [0, 0, 0];
+			const cuboMesh = cubo(posini, lado, cuboMat);
+			escena.add(cuboMesh);
+
+			// Aplica las transformaciones al cubo
+			const tx = new TRES.Vector3(2 * lado, 0, 0);
+			cuboMesh.position.add(tx);
+
+			constante s = 1,5;
+			const scaleMatrix = new TRES.Matrix4().makeScale(s, s, s);
+			cuboMesh.applyMatrix4(scaleMatrix);
+
+			ángulo constante = Math.PI / 4;
+			const rotMatrix = new TRES.Matriz4().hacerRotaciónX(ángulo);
+			cuboMesh.applyMatrix4(rotMatrix);
+
+			// Crea la luz
+			const light = new TRES.PointLight(0xffffff, 1, 100);
+			luz.posicion.set(0, 0, 10);
+			escena.add(luz);
+
+			// Crea el renderizador
+			renderizador const = new TRES.WebGLRenderer();
+			renderer.setSize(ancho, alto);
+			documento.cuerpo.appendChild(renderer.domElement);
+
+			// Renderiza la escena en la ventana del navegador
+			función animar() {
+				requestAnimationFrame(animar);
+				renderer.render(escena, cámara);
+			}
+			animar();
+		</script>
+	</cuerpo>
+</html>
