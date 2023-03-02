@@ -1,179 +1,83 @@
-<!DOCTYPEhtml >
-<html> _ _
-    < cabeza >
-        < título > Título </ título >
-        < estilo >
-            html ,  cuerpo { margen :  0 ; relleno :  0 ; desbordamiento : oculto; }
-            # texto {
-                posición : absoluta;
-                relleno :  10 px ;
-                ancho :  100 % ;
-                alineación de texto : centro;
-                color :  #FFFFFF ; _
-            }
-        </ estilo >
-    </ cabeza >
-    < cuerpo >
-        < div  id =" texto " > Título < br />
-            Subtítulo <br /> _ _
-            Descripción < br />
-        </div> _ _
-    < guión  src =" https://cdnjs.cloudflare.com/ajax/libs/tres.js/r94/tres.min.js " > </ guión >
-    < guión >
+<!DOCTYPEhtml>
+<html>
+	<cabeza>
+		<title>Transformaciones en Three.js</title>
+		<juego de caracteres meta="UTF-8">
+		<estilo>
+			cuerpo {
+				margen: 0;
+				desbordamiento: oculto;
+			}
+			lienzo {
+				bloqueo de pantalla;
+			}
+		</estilo>
+	</cabeza>
+	<cuerpo>
+		<guión src="https://tresjs.org/build/tres.min.js"></guión>
+		<script>
+			// Definir la función cubo
+			función cubo(posini, lado, material) {
+				const cuboGeom = new TRES.BoxGeometry(lado, lado, lado);
+				const cuboMesh = new TRES.Mesh(cuboGeom, material);
+				cuboMesh.position.set(posini[0], posini[1], posini[2]);
 
-    función  inicializar ( )  {
+				// Crea las lineas de contorno del cubo
+				const cuboEdges = new TRES.EdgesGeometry(cuboGeom);
+				const cuboLines = new TRES.LineSegments(cuboEdges, new TRES.LineBasicMaterial({color: 0x000000}));
+				cuboMesh.add(cuboLines);
 
-        // Escena
-        escena  =  nuevo  TRES . Escena ( ) ;
-        cámara  =  nuevo  TRES . PerspectiveCamera ( 45 ,  ventana . ancho interior  /  ventana . altura interior ,  0.1 ,  1000 ) ;    
-        renderizador  =  nuevo  TRES . WebGLRenderer ( ) ;
-        renderizador _ establecerClearColor ( 0x000000 ,  1.0 ) ;
-        renderizador _ setSize ( ventana.interiorAncho , ventana.interiorAltura ) ; _ _ _ _ 
+				volver cuboMesh;
+			}
 
-        var  tamaño  =  700 ;
-        var  tamaño de flecha  =  40 ;
-        var  divisiones  =  20 ;
-        var  origen  =  nuevo  TRES . Vector3 (  0 ,  0 ,  0  ) ;
-        var  x  =  nuevo  TRES . Vector3 (  1 ,  0 ,  0  ) ;
-        var  y  =  nuevo  TRES . Vector3 (  0 ,  1 ,  0  ) ;
-        var  z  =  TRES nuevos  . Vector3 ( 0 , 0 , 1 ) ;    
-        var  color2  =  nuevo  TRES . Color (  0x333333  ) ;   /// 0x333333
-        var  colorR  =  nuevo  TRES . Color (  0xAA0000  ) ;
-        var  colorG  =  nuevo  TRES . Color (  0x00AA00  ) ;
-        var  colorB  =  nuevo  TRES . Color (  0x0000AA  ) ;
+			// Crea la escena
+			const escena = new TRES.Escena();
+			escena.fondo = nuevo TRES.Color(0xffffff);
 
-        //Crear la parrilla
-        var  gridHelperXZ  =  TRES nuevos  . GridHelper ( tamaño , divisiones , color2 , color2 ) ;    
+			// Crea la cámara
+			const ancho = ventana.innerWidth;
+			const altura = ventana.innerHeight;
+			const camera = new TRES.PerspectiveCamera(75, ancho/alto, 0.1, 1000);
+			cámara.posición.set(1, 0, 5);
 
-        //Flechas
-        var  flechaX  =  nuevo  TRES . ArrowHelper (  x ,  origen ,  tamaño de flecha ,  colorR  ) ;
-        var  flechaY  =  nuevo  TRES . ArrowHelper (  y ,  origen ,  tamaño de flecha ,  colorG  ) ;
-        var  flechaZ  =  nuevo  TRES . ArrowHelper (  z ,  origen ,  tamaño de flecha ,  colorB  ) ;
-            
-        //Cámara
-        cámara _ posición _ x  =  200 ;
-        cámara _ posición _ y  =  100 ;
-        cámara _ posición _ z  =  80 ;
-        cámara _ lookAt ( escena . posición ) ;
+			// Crea el material del cubo
+			const cuboMat = new TRES.MeshLambertMaterial({color: 0xff0000});
 
-        //Creación de las Figuras
-        //Cuadrado
-        Geometria = nuevo  TRES . Geometría ( ) ;
-        var  vértices  =  [ [ 10 , 10 , 0 ] ,  [ 40 , 10 , 0 ] ,  [ 40 , 40 , 0 ] ,  [ 10 , 40 , 0 ] ,  [ 10 , 10 , 0 ] ] ;
-        var  largoVertice  =  vértices . longitud ;
-        for  ( i  =  0 ;  i  <  vértice largo ;  i ++ )  {
-            x  =  vértices [ i ] [ 0 ] ;
-            y  =  vértices [ i ] [ 1 ] ;
-            z  =  vértices [ i ] [ 2 ] ;
-            vector  =  nuevo  TRES . Vector3 ( x ,  y ,  z ) ;
-            geometría . vértices _ empujar ( vector ) ;
-        }
+			// Crea el cubo y lo agrega a la escena
+			lado constante = 1;
+			const posini = [0, 0, 0];
+			const cuboMesh = cubo(posini, lado, cuboMat);
+			escena.add(cuboMesh);
 
-        Geometria3 = nuevo  TRES . Geometría ( ) ;
-        var  vértices  =  [ [ 10 , 10 , 30 ] ,  [ 40 , 10 , 30 ] , [ 40 , 40 , 30 ] , [ 10 , 40 , 30 ] , [ 10 , 10 , 30 ] ] ;   
-        var  largoVertice  =  vértices . longitud ;
-        for  ( i  =  0 ;  i  <  vértice largo ;  i ++ )  {
-            x  =  vértices [ i ] [ 0 ] ;
-            y  =  vértices [ i ] [ 1 ] ;
-            z  =  vértices [ i ] [ 2 ] ;
-            vector  =  nuevo  TRES . Vector3 ( x ,  y ,  z ) ;
-            geometría3 . vértices _ empujar ( vector ) ;
-        }
+			// Aplica las transformaciones al cubo
+			const tx = new TRES.Vector3(2 * lado, 0, 0);
+			cuboMesh.position.add(tx);
 
-        Geometria4 = nuevo  TRES . Geometría ( ) ;
-        var  vértices  =  [ [ 10 , 10 , 30 ] ,  [ 40 , 10 , 30 ] , [ 40 , 40 , 30 ] , [ 10 , 40 , 30 ] , [ 10 , 10 , 30 ] ] ;   
-        var  largoVertice  =  vértices . longitud ;
-        for  ( i  =  0 ;  i  <  vértice largo ;  i ++ )  {
-            x  =  vértices [ i ] [ 0 ] ;
-            y  =  vértices [ i ] [ 1 ] ;
-            z  =  vértices [ i ] [ 2 ] ;
-            vector  =  nuevo  TRES . Vector3 ( x ,  y ,  z ) ;
-            geometría4 . vértices _ empujar ( vector ) ;
-        }
+			constante s = 1,5;
+			const scaleMatrix = new TRES.Matrix4().makeScale(s, s, s);
+			cuboMesh.applyMatrix4(scaleMatrix);
 
-        // Cuadrado Modificado
-        Geometria2 = nuevo  TRES . Geometría ( ) ;
-        var  vértices  =  [ [ 10 , 10 , 30 ] ,  [ 40 , 10 , 30 ] , [ 40 , 40 , 30 ] , [ 10 , 40 , 30 ] , [ 10 , 10 , 30 ] ] ;   
-        var  largoVertice  =  vértices . longitud ;
-        for  ( i  =  0 ;  i  <  vértice largo ;  i ++ ) {
-            x  =  vértices [ i ] [ 0 ] ;
-            y  =  vértices [ i ] [ 1 ] ;
-            z  =  vértices [ i ] [ 2 ] ;
-            vector  =  nuevo  TRES . Vector3 ( x ,  y ,  z ) ;
-            geometría2 . vértices _ empujar ( vector ) ;
-        }
+			ángulo constante = Math.PI / 4;
+			const rotMatrix = new TRES.Matriz4().hacerRotaciónX(ángulo);
+			cuboMesh.applyMatrix4(rotMatrix);
 
-        // Colores
-        Material = nuevo  TRES . Material Básico de Partículas ( { color : 0xFF0000 } ) ;
-        Material2 = TRES nuevos  . Material Básico de Partículas ( { color : 0xFF0000 } ) ;
-        Material3 = nuevo  TRES . Material Básico de Partículas ( { color : 0xFF0000 } ) ;
-        Material4 = TRES nuevos  . Material Básico de Partículas ( { color : 0xFF0000 } ) ;
+			// Crea la luz
+			const light = new TRES.PointLight(0xffffff, 1, 100);
+			luz.posicion.set(0, 0, 10);
+			escena.add(luz);
 
-        Cuadrado  =  nuevo  TRES . Línea ( Geometría , Material ) ;
-        Cuadrado2  =  nuevo  TRES . Línea ( Geometría2 , Material2 ) ; 
-        Cuadrado3  =  nuevo  TRES . Línea ( Geometría3 , Material3 ) ; 
-        Cuadrado4  =  nuevo  TRES . Línea ( Geometría4 , Material4 ) ; 
+			// Crea el renderizador
+			renderizador const = new TRES.WebGLRenderer();
+			renderer.setSize(ancho, alto);
+			documento.cuerpo.appendChild(renderer.domElement);
 
-        /* Matriz de Traslación
-        var matrizT = new TRES.Matriz4();
-        matrizT.set(1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 1,
-                0, 0, 0, 1);
-                Cuadrado2.aplicarMatriz(matrizT); */        
-
-        /* Matriz de Escala
-        var matrizS = new TRES.Matriz4();
-        matrizS.set(5, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1);
-                Cuadrado2.applyMatrix(matrizS);*/
-
-        // Matriz de Rotación
-        var  matrizR  =  nuevo  TRES . Matriz4 ( ) ;
-        var  alfa  =  30 ;
-        var  cs  =  Matemáticas . cos ( alfa ) ;
-        var  ss  =  Matemáticas . pecado ( alfa ) ;
-
-        matrizR . conjunto ( cs ,   0 ,  ss ,  0 ,
-                0 ,  1 ,  0 ,  0 , 
-                -ss , 0 , cs , 0 , _   
-                0 ,  0 ,  0 ,  1 ) ;    
-
-                Cuadrado2 . aplicarMatriz ( matrizR ) ;
-
-        var  matrizR  =  nuevo  TRES . Matriz4 ( ) ;
-        var  alfa  =  90 ;
-        var  cs  =  Matemáticas . cos ( alfa ) ;
-        var  ss  =  Matemáticas . pecado ( alfa ) ;
-
-        matrizR . conjunto ( cs ,   0 ,  ss ,  0 ,
-                0 ,  1 ,  0 ,  0 , 
-                -ss , 0 , cs , 0 , _   
-                0 ,  0 ,  0 ,  1 ) ;    
-
-                Cuadrado4 . aplicarMatriz ( matrizR ) ;
-
-        // En el documento HTML
-        // En el documento HTML
-        documento _ cuerpo _ appendChild ( procesador . domElement ) ;
-
-        // Agregar elementos al escenario
-        escena _ añadir ( gridHelperXZ ) ;
-        escena _ añadir ( flechaX ) ;  
-        escena _ agregar ( flecha Y ) ;  
-        escena _ añadir ( flechaZ ) ;
-        escena _ añadir ( Cuadrado ) ;
-        escena _ añadir ( Cuadrado2 ) ;
-        escena _ añadir ( Cuadrado3 ) ;
-        escena _ añadir ( Cuadrado4 ) ;
-
-        renderizador _ renderizar ( escena ,  cámara ) ;
-    }
-
-    inicializar ( ) ;   // otra forma: ventana.onload = init;
-
-    </ guión >
-  </ cuerpo >
-</html> _ _
+			// Renderiza la escena en la ventana del navegador
+			función animar() {
+				requestAnimationFrame(animar);
+				renderer.render(escena, cámara);
+			}
+			animar();
+		</script>
+	</cuerpo>
+</html>
+    
